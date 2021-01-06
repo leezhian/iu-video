@@ -1,6 +1,6 @@
 {
   "name": "iu-video",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "轻量级 视频播放器（vue3）",
   "private": false,
   "main": "lib/iu-video.umd.min.js",
