@@ -92,6 +92,18 @@
 
 ## 基本使用
 
+```javascript
+// main.js
+import IuVideo from 'iu-video'
+import 'iu-video/lib/iu-video.css'
+
+const app = createApp(App)
+app.mount('#app')
+app.use(IuVideo)
+```
+
+
+
 ```vue
 <template>
 	<iu-video :dataSource="dataSource" title="基本使用">
