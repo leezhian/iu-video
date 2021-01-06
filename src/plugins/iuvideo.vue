@@ -241,7 +241,7 @@ import { filterDuration } from '@/assets/js/utils.js'
 import useIuVideo from './iuvideo.js'
 
 export default {
-  name: 'IuVideo',
+  name: 'iu-video',
   props: {
     title: String,
     dataSource: {
@@ -254,10 +254,10 @@ export default {
     },
   },
   setup(props) {
-    const options = toRef(props, 'options')
+    const opts = toRef(props, 'options')
 
     const { state, initPlayer, destroyPlayer, ...propsAndFn } = useIuVideo(
-      options.value
+      opts.value
     )
 
     onMounted(() => {
