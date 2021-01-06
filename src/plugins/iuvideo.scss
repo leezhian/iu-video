@@ -1,0 +1,277 @@
+@charset 'utf-8';
+
+.iuvideo {
+  position: relative;
+  user-select: none;
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s;
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+  }
+
+  .iuvideo-header {
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 6px 10px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #fff;
+    background-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.5),
+      rgba(255, 255, 255, 0));
+
+    .iuvideo-title {
+      overflow: hidden;
+      max-width: 200px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      letter-spacing: 2px;
+    }
+  }
+}
+
+.iuvideo-player {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+
+  &::-webkit-media-controls {
+    display: none !important;
+  }
+}
+
+.iuvideo-control-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-image: linear-gradient(to top,
+      rgba(0, 0, 0, 0.5),
+      rgba(255, 255, 255, 0));
+
+  .iuvideo-control-top {
+    overflow: hidden;
+    padding: 4px 10px 0;
+    width: 100%;
+    transition: all 0.1s;
+
+    .iuvideo-progress-slider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .iuvideo-progress-bar {
+      position: relative;
+      width: 100%;
+      height: 3px;
+      background-origin: content-box;
+      background-clip: content-box;
+      background-color: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+    }
+
+    .bar-buffer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      transform: scaleX(0);
+      transform-origin: 0 0;
+      background-color: rgba(255, 255, 255, 0.3);
+      transition: transform .1s linear;
+    }
+
+    .bar-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      transform: scaleX(0);
+      transform-origin: 0 0;
+      background-color: #7d72b6;
+      transition: transform .1s linear;
+    }
+
+    .bar-progress-dot {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #7d72b6;
+    }
+  }
+
+  .iuvideo-control-bottom {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px 10px;
+    font-size: 0;
+
+    .iuvideo-control-b-left {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+
+      .iuvideo-control-duration {
+        margin-left: 10px;
+        font-size: 12px;
+        color: #fff;
+      }
+    }
+
+    .iuvideo-control-b-right {
+      display: flex;
+      flex-grow: 1;
+      justify-content: flex-end;
+      -webkit-box-pack: end;
+    }
+
+    .iuvideo-control-btn {
+      position: relative;
+      flex-shrink: 0;
+      width: auto;
+      height: 22px;
+      font-size: 12px;
+      line-height: 22px;
+      color: #fff;
+      cursor: pointer;
+
+      &.iuvideo-control-btn-speed,
+      &.iuvideo-control-btn-quality {
+        padding: 0 10px;
+
+        .iuvideo-control-speed-name,
+        .iuvideo-control-quality-name {
+          width: 100%;
+          border: none;
+          color: inherit;
+          font-size: inherit;
+          line-height: inherit;
+          outline: none;
+          background: none;
+          cursor: pointer;
+
+        }
+      }
+
+      &.iuvideo-control-btn-speed {
+        .speed-menu {
+          overflow: hidden;
+          position: absolute;
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: column-reverse;
+          left: 50%;
+          bottom: calc(100% + 18px);
+          transform: translateX(-50%);
+          padding: 6px 0;
+          border-radius: 2px;
+          font-size: 14px;
+          text-align: center;
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .speed-menu-item {
+          padding: 4px 14px;
+          color: #fff;
+
+          &.active {
+            color: #7d72b6;
+          }
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+          }
+        }
+      }
+
+      &.iuvideo-control-btn-volume {
+        .volume-control {
+          position: absolute;
+          overflow: hidden;
+          position: absolute;
+          display: block;
+          left: 50%;
+          bottom: calc(100% + 18px);
+          transform: translateX(-50%);
+          width: 32px;
+          height: 100px;
+          font-size: 12px;
+          border-radius: 2px;
+          text-align: center;
+          background-color: rgba(0, 0, 0, 0.5);
+          cursor: default;
+        }
+
+        .volume-num {
+          margin-bottom: 2px;
+          line-height: 28px;
+        }
+
+        .volume-bar-wrap {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 60px;
+          cursor: pointer;
+        }
+
+        .volume-bar {
+          overflow: hidden;
+          position: relative;
+          width: 2px;
+          height: 100%;
+          border-radius: 1.5px;
+          background-color: #e7e7e7;
+        }
+
+        .volume-progress {
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          transform-origin: 0 100%;
+          transform: scaleY(1);
+          background-color: #7d72b6;
+        }
+
+        .volume-dot{
+          position: absolute;
+          top: 0;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          transform: translateY(-50%);
+          background-color: #7d72b6;
+        }
+      }
+    }
+
+    .iuvideo-control-svg {
+      display: inline-block;
+      padding: 0 8px;
+      height: 22px;
+    }
+  }
+}

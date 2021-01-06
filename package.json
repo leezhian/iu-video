@@ -1,0 +1,55 @@
+{
+  "name": "iu-video",
+  "version": "0.1.0",
+  "description": "轻量级 视频播放器（vue3）",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lib": "vue-cli-service build --target lib --name iu-video --dest lib src/plugins/index.js",
+    "lint": "vue-cli-service lint"
+  },
+  "keywords": [
+    "video",
+    "iu-video"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leezhian/iu-video.git"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "lodash": "^4.17.20",
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^7.0.0-0",
+    "sass": "^1.30.0",
+    "sass-loader": "^10.1.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
