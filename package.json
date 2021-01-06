@@ -1,12 +1,14 @@
 {
   "name": "iu-video",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "轻量级 视频播放器（vue3）",
-  "private": true,
+  "private": false,
+  "main": "lib/iu-video.umd.min.js",
+  "author": "leezhian",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lib": "vue-cli-service build --target lib --name iu-video --dest lib src/plugins/index.js",
+    "lib": "vue-cli-service build --target lib --name iu-video --dest lib src/index.js",
     "lint": "vue-cli-service lint"
   },
   "keywords": [
