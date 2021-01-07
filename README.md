@@ -102,27 +102,54 @@ app.mount('#app')
 app.use(IuVideo)
 ```
 
-
-
 ```vue
 <template>
-	<iu-video :dataSource="dataSource" title="基本使用">
+	<iu-video :dataSource="dataSource" title="基本使用" ref="videoRef">
 </template>
 
 <script>
-	import { reactive } from 'vue'
+	import { reactive, ref } from 'vue'
     export default {
         setup() {
+            const videoRef = ref(null)
             const dataSource = reactive([
                 type: 'video/mp4',
                 url: 'https://xxx.mp4'
             ])
             
             return {
+                videoRef,
                 dataSource
             }
         }
     }
 </script>
+```
+
+
+
+## 事件
+
+**监听事件**：`on(eventName, fn)`
+
+**解除监听**：`remove(eventName, [fn])` ，当不传入 `fn` 默认清除该事件所有监听函数。
+
+
+
+- `canplay`  视频可以播放的时候触发。
+- `play` 视频开始播放触发。
+- `pause` 视频暂停触发。
+- `ended` 视频播放结束触发。
+- `timeupdate`  播放进度更新时触发，并回传一个当前进度。
+- `enterpictureinpicture` 开启画中画模式时触发。
+- `leavepictureinpicture` 关闭画中画模式时触发。
+- `fullScreen` 全屏触发，并回传一个布尔值，true为当前全屏，false为退出全屏。
+
+**Demo**
+
+```javascript
+videoRef.on('play', function() {
+    console.log('开始播放了')
+})
 ```
 

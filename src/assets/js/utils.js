@@ -73,7 +73,7 @@ export const exitFullscreen = () => {
  */
 export const toPicInPic = el => {
   return el.requestPictureInPicture().catch(() => {
-    console. error('The video failed to open picture in picture')
+    console.error('The video failed to open picture in picture')
   })
 }
 
@@ -84,4 +84,58 @@ export const exitPicInPic = () => {
   document.exitPictureInPicture().catch(() => {
     console.error('The video failed to close picture in picture')
   })
+}
+
+/**
+ * @description: 发布订阅模式
+ */
+const observer = {
+  clientList: {},
+  listen(key, fn) {
+    if (!this.clientList[key]) {
+      this.clientList[key] = []
+    }
+
+    this.clientList[key].push(fn)
+  },
+  trigger() {
+    const key = Array.prototype.shift.call(arguments)
+    const fns = this.clientList[key]
+
+    if (!fns || fns.listen === 0) {
+      return false
+    }
+
+    for (let i = 0; i < fns.length; i++) {
+      fns[i].apply(this, arguments)
+    }
+  },
+  remove(key, fn) {
+    const fns = this.clientList[key]
+
+    if (!fns) {
+      return false
+    }
+
+    if (!fn) {
+      fns && (fns.length = 0)
+    } else {
+      for (let i = fns.length - 1; i >= 0; i--) {
+        const _fn = fns[i]
+        if (_fn === fn) {
+          fns.splice(1, 1)
+        }
+      }
+    }
+  }
+}
+
+/**
+ * @description: 安装发布订阅
+ * @param {object} obj
+ */
+export const installObserver = obj => {
+  for (let key in observer) {
+    obj[key] = observer[key]
+  }
 }

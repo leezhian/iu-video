@@ -2,7 +2,7 @@
  * @Author: kim
  * @Date: 2020-12-29 16:48:12
  * @LastEditors: kim
- * @LastEditTime: 2021-01-06 14:57:18
+ * @LastEditTime: 2021-01-07 13:58:36
  * @Description: 自定义播放器逻辑文件
  */
 import {
@@ -22,7 +22,8 @@ import {
   exitFullscreen,
   isNodeContain,
   toPicInPic,
-  exitPicInPic
+  exitPicInPic,
+  installObserver
 } from '@/assets/js/utils.js'
 import {
   defaultConfig
@@ -54,6 +55,9 @@ export default function (props) {
   let speedTimer = null
   let volumeBlurTimer = null // 音量失焦timer
   let progressBarW = 0 // 进度条总长度
+
+  const eventListener = {} // 观察者
+
   // 音量触摸事件
   const volumeData = {
     touch: false,
@@ -246,7 +250,6 @@ export default function (props) {
     } else {
       videoRef.value.pause()
     }
-    config.value.playCallback && config.value.playCallback(!isPaused)
   }
 
   /**
@@ -286,7 +289,7 @@ export default function (props) {
    */
   const handleTouchEndProgress = () => {
     progressData.touch = false
-    if(state.currentTime == state.duration) return
+    if (state.currentTime == state.duration) return
     state.isPaused && videoRef.value.play()
   }
 
@@ -453,6 +456,7 @@ export default function (props) {
    */
   const _handleCanPlay = () => {
     state.duration = videoRef.value.duration || 0
+    eventListener.trigger('canplay')
   }
 
   /**
@@ -465,6 +469,8 @@ export default function (props) {
     const ratio = (state.currentTime / state.duration).toFixed(4)
     const dotLeft = progressBarW * ratio
     videoControlRef.value.querySelector('.bar-progress-dot').style.left = `${dotLeft}px`
+
+    eventListener.trigger('fullScreen', state.isFullScreen)
   }
 
   /**
@@ -472,6 +478,7 @@ export default function (props) {
    */
   const _handlePlay = () => {
     state.isPaused = false
+    eventListener.trigger('play')
   }
 
   /**
@@ -479,6 +486,7 @@ export default function (props) {
    */
   const _handlePause = () => {
     state.isPaused = true
+    eventListener.trigger('pause')
   }
 
   /**
@@ -487,7 +495,7 @@ export default function (props) {
   const _handleEnded = () => {
     state.isPaused = true
 
-    config.value.endedCallback && config.value.endedCallback()
+    eventListener.trigger('ended')
   }
 
   /**
@@ -502,6 +510,8 @@ export default function (props) {
     // 移动进度点
     const dotLeft = progressBarW * ratio
     videoControlRef.value.querySelector('.bar-progress-dot').style.left = `${dotLeft}px`
+
+    eventListener.trigger('timeupdate', state.currentTime)
   }
 
   /**
@@ -509,6 +519,8 @@ export default function (props) {
    */
   const _handleEnterPicInPic = () => {
     state.isPicInPic = true
+
+    eventListener.trigger('enterpictureinpicture')
   }
 
   /**
@@ -516,6 +528,8 @@ export default function (props) {
    */
   const _handleLeavePicInPic = () => {
     state.isPicInPic = false
+
+    eventListener.trigger('leavepictureinpicture')
   }
 
   /**
@@ -523,6 +537,8 @@ export default function (props) {
    */
   const initPlayer = () => {
     _handleSetting()
+    // 安装事件订阅者
+    installObserver(eventListener)
     videoWrapRef.value.addEventListener('fullscreenchange', _handleScreen)
     videoRef.value.addEventListener('canplay', _handleCanPlay, false)
     videoRef.value.addEventListener('timeupdate', _handleTimeUpdate)
@@ -548,6 +564,16 @@ export default function (props) {
     videoRef.value.removeEventListener('enterpictureinpicture', _handleEnterPicInPic);
     videoRef.value.removeEventListener('leavepictureinpicture', _handleLeavePicInPic);
   }
+
+  // 开放接口start
+  const on = (key, fn) => {
+    return eventListener.listen(key, fn)
+  }
+
+  const remove = (key, fn) => {
+    return eventListener.remove(key, fn)
+  }
+  // 开放接口end
 
   return {
     state,
@@ -575,6 +601,8 @@ export default function (props) {
     handleClickSpeedMenu,
     handlePicInPic,
     initPlayer,
-    destroyPlayer
+    destroyPlayer,
+    on,
+    remove
   }
 }
