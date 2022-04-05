@@ -104,17 +104,19 @@ app.use(IuVideo)
 
 ```vue
 <template>
-	<iu-video :dataSource="dataSource" title="基本使用" ref="videoRef">
+    <iu-video :dataSource="dataSource" title="基本使用" ref="videoRef">
 </template>
 
 <script>
-	import { reactive, ref } from 'vue'
+    import { reactive, ref } from 'vue'
     export default {
         setup() {
             const videoRef = ref(null)
             const dataSource = reactive([
-                type: 'video/mp4',
-                url: 'https://xxx.mp4'
+                {
+		    type: 'video/mp4',
+                    url: 'https://xxx.mp4'
+		}
             ])
             
             return {
